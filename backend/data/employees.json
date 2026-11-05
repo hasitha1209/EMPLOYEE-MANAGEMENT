@@ -22,5 +22,13 @@
     "phone": "9876543212",
     "dob": "1997-02-03",
     "department": "Finance"
+  },
+  {
+    "id": "EMP004",
+    "name": "Hasitha S",
+    "email": "hasithasruthi2006@gmail.com",
+    "phone": "9876543210",
+    "dob": "2014-06-05",
+    "department": "IT"
   }
 ]
