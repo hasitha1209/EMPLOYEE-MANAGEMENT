@@ -1,9 +1,18 @@
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
-const filePath = path.join(__dirname, "../data/employees.json");
+const seedPath = path.join(__dirname, "../data/employees.json");
+
+// On Vercel the project files are read-only, so we use a temporary folder there.
+const filePath = process.env.VERCEL
+  ? path.join(os.tmpdir(), "employees.json")
+  : seedPath;
 
 const readEmployees = () => {
+  if (!fs.existsSync(filePath)) {
+    fs.copyFileSync(seedPath, filePath);
+  }
   const data = fs.readFileSync(filePath, "utf-8");
   return JSON.parse(data);
 };
