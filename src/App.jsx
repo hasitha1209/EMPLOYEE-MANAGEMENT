@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import EmployeeTable from "./components/EmployeeTable";
 import EmployeeForm from "./components/EmployeeForm";
 import "./App.css";
-
 const API_URL = "http://localhost:5000/api/employees";
 const SERVER_ERROR = "Cannot connect to the server. Is the backend running?";
 
