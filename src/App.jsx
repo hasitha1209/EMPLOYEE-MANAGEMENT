@@ -1,122 +1,97 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import EmployeeTable from "./components/EmployeeTable";
+import EmployeeForm from "./components/EmployeeForm";
+import "./App.css";
+
+const initialEmployees = [
+  { id: "EMP001", name: "Rahul", email: "rahul@gmail.com", phone: "9876543210", dob: "1998-05-12", department: "IT" },
+  { id: "EMP002", name: "Priya", email: "priya@gmail.com", phone: "9876543211", dob: "1999-08-21", department: "HR" },
+  { id: "EMP003", name: "Amit", email: "amit@gmail.com", phone: "9876543212", dob: "1997-02-03", department: "Finance" },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [employees, setEmployees] = useState(initialEmployees);
+  const [nextId, setNextId] = useState(4);
+  const [search, setSearch] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [editing, setEditing] = useState(null);
+  const [message, setMessage] = useState("");
+
+  const showMessage = (text) => {
+    setMessage(text);
+    setTimeout(() => setMessage(""), 3000);
+  };
+
+  const handleSave = (data) => {
+    if (editing) {
+      setEmployees(employees.map((e) => (e.id === editing.id ? { ...e, ...data } : e)));
+      showMessage("Employee updated successfully!");
+    } else {
+      const id = "EMP" + String(nextId).padStart(3, "0");
+      setEmployees([...employees, { ...data, id }]);
+      setNextId(nextId + 1);
+      showMessage("Employee added successfully!");
+    }
+    setShowForm(false);
+    setEditing(null);
+  };
+
+  const handleDelete = (emp) => {
+    if (window.confirm("Delete " + emp.name + "?")) {
+      setEmployees(employees.filter((e) => e.id !== emp.id));
+      showMessage("Employee deleted successfully!");
+    }
+  };
+
+  const filtered = employees.filter((e) =>
+    e.name.toLowerCase().includes(search.toLowerCase())
+  );
+  const count = (dept) => employees.filter((e) => e.department === dept).length;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <div className="page">
+      {message && <div className="toast">✓ {message}</div>}
+
+      <div className="header">
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <h1>Employee Management</h1>
+          <p>Manage your workforce and employee information.</p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
+        <button className="btn-primary" onClick={() => { setEditing(null); setShowForm(true); }}>
+          + Add Employee
         </button>
-      </section>
+      </div>
 
-      <div className="ticks"></div>
+      <div className="cards">
+        <div className="card"><span>Total</span><b>{employees.length}</b></div>
+        <div className="card"><span>IT</span><b>{count("IT")}</b></div>
+        <div className="card"><span>HR</span><b>{count("HR")}</b></div>
+        <div className="card"><span>Finance</span><b>{count("Finance")}</b></div>
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <input
+        className="search"
+        placeholder="Search by name..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <EmployeeTable
+        employees={filtered}
+        onEdit={(emp) => { setEditing(emp); setShowForm(true); }}
+        onDelete={handleDelete}
+      />
+
+      {showForm && (
+        <EmployeeForm
+          employee={editing}
+          employees={employees}
+          onSave={handleSave}
+          onCancel={() => { setShowForm(false); setEditing(null); }}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
