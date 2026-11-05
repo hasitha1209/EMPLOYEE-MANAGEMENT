@@ -36,6 +36,7 @@ tbody tr:hover { background: #faf9ff; }
 .error { color: #c0283c; font-size: 12px; margin-top: 3px; }
 .btn-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 .toast { position: fixed; top: 20px; right: 20px; background: #16a34a; color: #fff; padding: 12px 20px; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); animation: slide 0.3s; z-index: 10; }
+.toast.error { background: #c0283c; }
 @keyframes slide { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes pop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
