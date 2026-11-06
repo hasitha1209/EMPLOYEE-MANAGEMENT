@@ -1,3 +1,4 @@
+
 * { box-sizing: border-box; }
 body { margin: 0; font-family: "Segoe UI", sans-serif; background: #f6f5fb; color: #1f2340; }
 .page { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
@@ -40,3 +41,5 @@ tbody tr:hover { background: #faf9ff; }
 @keyframes pop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 @media (max-width: 700px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+
+.toast.error { background: #c0283c; }
