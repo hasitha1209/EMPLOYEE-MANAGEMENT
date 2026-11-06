@@ -57,13 +57,7 @@ function App() {
           <h1>Employee Management</h1>
           <p>Manage your workforce and employee information.</p>
         </div>
-        <button
-          className="btn-primary"
-          onClick={() => {
-            setEditing(null);
-            setShowForm(true);
-          }}
-        >
+        <button className="btn-primary" onClick={() => { setEditing(null); setShowForm(true); }}>
           + Add Employee
         </button>
       </div>
@@ -84,10 +78,7 @@ function App() {
 
       <EmployeeTable
         employees={filtered}
-        onEdit={(emp) => {
-          setEditing(emp);
-          setShowForm(true);
-        }}
+        onEdit={(emp) => { setEditing(emp); setShowForm(true); }}
         onDelete={handleDelete}
       />
 
@@ -96,10 +87,7 @@ function App() {
           employee={editing}
           employees={employees}
           onSave={handleSave}
-          onCancel={() => {
-            setShowForm(false);
-            setEditing(null);
-          }}
+          onCancel={() => { setShowForm(false); setEditing(null); }}
         />
       )}
     </div>
